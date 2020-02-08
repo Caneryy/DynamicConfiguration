@@ -9,7 +9,7 @@ namespace DynamicConfiguration.DAL
 {
     public abstract class BaseRepository<TModel> where TModel : BaseModel
     {
-        private readonly IMongoCollection<TModel> mongoCollection;
+        protected IMongoCollection<TModel> mongoCollection;
 
         public BaseRepository(string mongoDBConnectionString, string dbName, string collectionName)
         {
