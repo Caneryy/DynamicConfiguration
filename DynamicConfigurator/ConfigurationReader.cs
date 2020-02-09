@@ -27,7 +27,7 @@ namespace DynamicConfigurator
             this.StartAsync(new CancellationToken());
         }
 
-        public string docPath
+        private string docPath
         {
             get
             {

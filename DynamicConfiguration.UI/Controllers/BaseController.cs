@@ -41,5 +41,17 @@ namespace DynamicConfiguration.UI.Controllers
                 return View();
             }
         }
+
+        public virtual IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Name,IsActive,Value,Type,ApplicationName")]TModel model)
+        {
+            this.BaseRepository.Create(model);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

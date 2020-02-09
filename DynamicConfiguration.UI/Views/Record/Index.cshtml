@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<input type="text" class="input" id="filter" placeholder="filter">
 <table class="table">
     <thead>
         <tr>
@@ -58,3 +59,25 @@
         }
     </tbody>
 </table>
+
+@section Scripts{
+
+    <script>
+        const listItems = $("table tbody tr");
+
+        $("#filter").on("input", function () {
+            let filter = $(this).val();
+            if (filter) {
+                listItems.hide();
+                $(`table tbody tr:contains('${filter}')`).show();
+            } else {
+                listItems.show();
+            }
+        });
+
+        jQuery.expr[':'].contains = function (a, i, m) {
+            return jQuery(a).text().toUpperCase()
+                .indexOf(m[3].toUpperCase()) >= 0;
+        };
+    </script>
+}
