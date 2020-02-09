@@ -14,20 +14,22 @@ namespace ServiceA.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        public ConfigurationReader _configurationReader;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ConfigurationReader configurationReader)
         {
             _logger = logger;
+            _configurationReader = configurationReader;
         }
 
         public IActionResult Index()
         {
-            ConfigurationReader configurationReader = new ConfigurationReader("SERVICE-A", "mongodb+srv://caner:Canercan11@firstcluster-j0uon.mongodb.net/test?retryWrites=true&w=majority", 5000);
+            //ConfigurationReader configurationReader = new ConfigurationReader("SERVICE-A", "mongodb+srv://caner:Canercan11@firstcluster-j0uon.mongodb.net/test?retryWrites=true&w=majority", 30000);
 
-            ViewBag.caner = configurationReader.GetValue<string>("SiteName");
-            var siteName = configurationReader.GetValue<string>("SiteName");
-            var maxItemCount = configurationReader.GetValue<int>("MaxItemCount");
-            var isBasketEnabled = configurationReader.GetValue<bool>("IsBasketEnabled");
+            ViewBag.caner = _configurationReader.GetValue<string>("SiteName");
+            var siteName = _configurationReader.GetValue<string>("SiteName");
+            var maxItemCount = _configurationReader.GetValue<int>("MaxItemCount");
+            var isBasketEnabled = _configurationReader.GetValue<bool>("IsBasketEnabled");
 
             ViewBag.siteName = siteName;
             ViewBag.maxItemCount = maxItemCount;

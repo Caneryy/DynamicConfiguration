@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DynamicConfigurator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,8 @@ namespace ServiceA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddSingleton(s => new ConfigurationReader("SERVICE-A", "mongodb+srv://caner:Canercan11@firstcluster-j0uon.mongodb.net/test?retryWrites=true&w=majority", 30000));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

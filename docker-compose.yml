@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  servicea:
+    image: ${DOCKER_REGISTRY-}servicea
+    build:
+      context: .
+      dockerfile: ServiceA/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - localnet

@@ -16,5 +16,10 @@ namespace DynamicConfiguration.DAL
         {
             return mongoCollection.Find<Record>(x => x.Name == name && x.ApplicationName == applicationName && x.IsActive).FirstOrDefault();
         }
+
+        public List<Record> GetListByApplicationName(string applicationName)
+        {
+            return mongoCollection.Find<Record>(x => x.ApplicationName == applicationName && x.IsActive).ToList();
+        }
     }
 }
