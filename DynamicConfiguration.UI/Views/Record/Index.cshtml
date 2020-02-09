@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<input type="text" class="input" id="filter" placeholder="filter">
+<input type="text" class="form-control" id="filter" placeholder="filter">
 <table class="table">
     <thead>
         <tr>
@@ -51,9 +51,7 @@
                     @Html.DisplayFor(modelItem => item.ApplicationName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                 </td>
             </tr>
         }
