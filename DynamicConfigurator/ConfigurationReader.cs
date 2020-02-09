@@ -1,9 +1,11 @@
 ﻿using DynamicConfiguration.DAL;
 using DynamicConfiguration.Model;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace DynamicConfigurator
             RefreshTimerIntervalInMs = refreshTimerIntervalInMs;
 
             this.RecordRepository = new RecordRepository(connectionString, "conff", "records");
-        
+
             this.StartAsync(new CancellationToken());
         }
 
@@ -33,7 +35,36 @@ namespace DynamicConfigurator
 
         public async Task GetRecords()
         {
-            Records = RecordRepository.GetListByApplicationName(ApplicationName);
+            try
+            {
+                Records = RecordRepository.GetListByApplicationName(ApplicationName);
+                WriteToFile();
+            }
+            catch (Exception ex)
+            {
+                ReadFromFile();
+            }
+            
+        }
+
+        private void WriteToFile()
+        {
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "dynamic-configuration.json")))
+            {
+                outputFile.Write(JsonConvert.SerializeObject(Records));
+            }
+        }
+
+        private void ReadFromFile()
+        {
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            FileStream fileStream = new FileStream(Path.Combine(docPath, "dynamic-configuration.json"), FileMode.Open);
+            using (StreamReader reader = new StreamReader(fileStream))
+            {
+                string records = reader.ReadToEnd();
+                Records = JsonConvert.DeserializeObject<List<Record>>(records);
+            }
         }
 
         public T GetValue<T>(string key)
@@ -54,7 +85,7 @@ namespace DynamicConfigurator
                 GetRecords();
                 await Task.Delay(RefreshTimerIntervalInMs, cToken);
             }
-     
+
         }
     }
 }

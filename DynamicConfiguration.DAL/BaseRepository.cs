@@ -26,7 +26,7 @@ namespace DynamicConfiguration.DAL
         public virtual TModel GetById(string id)
         {
             var docId = new ObjectId(id);
-            return mongoCollection.Find<TModel>(m => m.Id == docId).FirstOrDefault();
+            return mongoCollection.Find<TModel>(m => m.Id == id).FirstOrDefault();
         }
 
         public virtual TModel Create(TModel model)
@@ -38,7 +38,7 @@ namespace DynamicConfiguration.DAL
         public virtual void Update(string id, TModel model)
         {
             var docId = new ObjectId(id);
-            mongoCollection.ReplaceOne(m => m.Id == docId, model);
+            mongoCollection.ReplaceOne(m => m.Id == id, model);
         }
 
         public virtual void Delete(TModel model)
@@ -49,7 +49,7 @@ namespace DynamicConfiguration.DAL
         public virtual void Delete(string id)
         {
             var docId = new ObjectId(id);
-            mongoCollection.DeleteOne(m => m.Id == docId);
+            mongoCollection.DeleteOne(m => m.Id == id);
         }
     }
 }
