@@ -27,13 +27,21 @@ namespace DynamicConfigurator
             this.StartAsync(new CancellationToken());
         }
 
-        public string ApplicationName { get; set; }
-        public string ConnectionString { get; set; }
-        public int RefreshTimerIntervalInMs { get; set; }
+        public string docPath
+        {
+            get
+            {
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName + "-dynamic-configuration.json");
+            }
+        }
 
-        public List<Record> Records { get; set; }
+        private string ApplicationName { get; set; }
+        private string ConnectionString { get; set; }
+        private int RefreshTimerIntervalInMs { get; set; }
 
-        public async Task GetRecords()
+        private List<Record> Records { get; set; }
+
+        private async Task GetRecords()
         {
             try
             {
@@ -44,13 +52,12 @@ namespace DynamicConfigurator
             {
                 ReadFromFile();
             }
-            
+
         }
 
         private void WriteToFile()
         {
-            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "dynamic-configuration.json")))
+            using (StreamWriter outputFile = new StreamWriter(docPath))
             {
                 outputFile.Write(JsonConvert.SerializeObject(Records));
             }
@@ -58,8 +65,7 @@ namespace DynamicConfigurator
 
         private void ReadFromFile()
         {
-            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            FileStream fileStream = new FileStream(Path.Combine(docPath, "dynamic-configuration.json"), FileMode.Open);
+            FileStream fileStream = new FileStream(docPath, FileMode.Open);
             using (StreamReader reader = new StreamReader(fileStream))
             {
                 string records = reader.ReadToEnd();
