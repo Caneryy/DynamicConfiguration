@@ -6,15 +6,24 @@ services:
     build:
       context: .
       dockerfile: ServiceA/Dockerfile
-    depends_on:
-      - rabbitmq
-
-  rabbitmq:
-    image: rabbitmq:3-management
-    hostname: rabbitmq
-    container_name: rabbitmq
     ports:
-      - 15672:15672
-      - 5672:5672
-    networks:
-      - localnet
+      - 23300:443
+      - 23301:80
+
+  serviceb:
+    image: ${DOCKER_REGISTRY-}serviceb
+    build:
+      context: .
+      dockerfile: ServiceB/Dockerfile
+    ports:
+      - 23302:443
+      - 23303:80
+
+  dynamicconfiguration.ui:
+    image: ${DOCKER_REGISTRY-}dynamicconfigurationui
+    build:
+      context: .
+      dockerfile: DynamicConfiguration.UI/Dockerfile
+    ports:
+      - 23304:443
+      - 23305:80

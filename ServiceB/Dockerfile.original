@@ -8,9 +8,6 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["ServiceB/ServiceB.csproj", "ServiceB/"]
-COPY ["DynamicConfigurator/DynamicConfigurator.csproj", "DynamicConfigurator/"]
-COPY ["DynamicConfiguration.DAL/DynamicConfiguration.DAL.csproj", "DynamicConfiguration.DAL/"]
-COPY ["DynamicConfiguration.Model/DynamicConfiguration.Model.csproj", "DynamicConfiguration.Model/"]
 RUN dotnet restore "ServiceB/ServiceB.csproj"
 COPY . .
 WORKDIR "/src/ServiceB"

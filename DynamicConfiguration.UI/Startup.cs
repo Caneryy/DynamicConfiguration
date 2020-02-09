@@ -25,7 +25,7 @@ namespace DynamicConfiguration.UI
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = this.Configuration.GetConnectionString("MongoConnectionString");
-            services.AddTransient(s => new RecordRepository(connectionString, "conff", "records"));
+            services.AddTransient(s => new RecordRepository(connectionString, "configuration", "records"));
 
             services.AddControllersWithViews();
         }

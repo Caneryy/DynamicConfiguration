@@ -14,7 +14,7 @@ namespace DynamicConfigurator
 {
     public class ConfigurationReader : HostedService
     {
-        public RecordRepository RecordRepository { get; set; }
+        private RecordRepository RecordRepository { get; set; }
 
         public ConfigurationReader(string applicationName, string connectionString, int refreshTimerIntervalInMs)
         {
@@ -22,7 +22,7 @@ namespace DynamicConfigurator
             ConnectionString = connectionString;
             RefreshTimerIntervalInMs = refreshTimerIntervalInMs;
 
-            this.RecordRepository = new RecordRepository(connectionString, "conff", "records");
+            this.RecordRepository = new RecordRepository(connectionString, "configuration", "records");
 
             this.StartAsync(new CancellationToken());
         }
@@ -75,7 +75,6 @@ namespace DynamicConfigurator
 
         public T GetValue<T>(string key)
         {
-            //var item = RecordRepository.GetByName(key, ApplicationName);
             var item = Records.Find(r => r.Name == key && r.IsActive);
             if (item == null)
             {
