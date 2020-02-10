@@ -5,6 +5,7 @@ The purpose of the project is that appkey in web.config, app.config files held i
 
 
 DynamicConfigurator.ConfigurationReader
+
 ConfigurationReader sınıfı HostedService sınıfından türetilerek belirlenen sürede storagedan datayı çekerken normal hizmetine de devam etmesi sağlanmıştır.
 
 Kullanmak istediğiniz projede aşağıdaki satırı Startup içerisindeki ConfigureServices methodunun içinde çağırın.
